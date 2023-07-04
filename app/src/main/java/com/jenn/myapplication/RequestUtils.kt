@@ -1,10 +1,27 @@
 package com.jenn.myapplication
 
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 object RequestUtils {
+
+    val gson = Gson()
     val client = OkHttpClient()
+
+    fun loadWeather(city: String): WeatherBean {
+        //Eventuel contrôle
+        //Réaliser la requête.
+        val json: String = sendGet("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=b80967f0a6bd10d23e44848547b26550&units=metric&lang=fr")
+
+        //Parser le JSON avec le bon bean et GSON
+        val data : WeatherBean = gson.fromJson(json, WeatherBean::class.java)
+
+        //Eventuel contrôle ou extraction de données
+
+        //Retourner la donnée
+        return data
+    }
 
     //Méthode qui prend en entrée une url, execute la requête
     //Retourne le code HTML/JSON reçu
